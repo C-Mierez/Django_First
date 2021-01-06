@@ -1,3 +1,5 @@
+import django_heroku
+
 """
 Django settings for Django_Test project.
 
@@ -44,7 +46,8 @@ INSTALLED_APPS = [
     
     # Local
     'Profiles_API.apps.ProfilesApiConfig',
-    'snippets.apps.SnippetsConfig'
+    'snippets.apps.SnippetsConfig',
+    'notes.apps.NotesConfig'
 ]
 
 MIDDLEWARE = [
@@ -132,3 +135,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'Profiles_API.UserProfile'
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())

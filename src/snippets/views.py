@@ -3,11 +3,14 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from snippets.models import Snippet
 from snippets.serializers import SnippetSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework import status
+from rest_framework import authentication, permissions
 
 
-@api_view(['GET', 'POST'])
+@api_view(http_method_names=['GET', 'POST'])
+#@authentication_classes([authentication.TokenAuthentication])
+@permission_classes([permissions.IsAdminUser])
 def snippet_list(request, format=None):
     
     if request.method == 'GET':
