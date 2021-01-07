@@ -134,7 +134,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-AUTH_USER_MODEL = 'Profiles_API.UserProfile'
+#AUTH_USER_MODEL = 'Profiles_API.UserProfile'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())

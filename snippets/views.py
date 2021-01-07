@@ -6,11 +6,25 @@ from snippets.serializers import SnippetSerializer
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework import status
 from rest_framework import authentication, permissions
+from django.contrib.auth.models import User
+from snippets.serializers import UserSerializer
+from rest_framework import generics
 
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+    
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
-@api_view(http_method_names=['GET', 'POST'])
 #@authentication_classes([authentication.TokenAuthentication])
-@permission_classes([permissions.IsAdminUser])
+#@permission_classes([permissions.IsAdminUser])
+@api_view(http_method_names=['GET', 'POST'])
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 def snippet_list(request, format=None):
     
     if request.method == 'GET':
@@ -28,6 +42,7 @@ def snippet_list(request, format=None):
     
              
 @api_view(['GET','PUT','DELETE'])
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 def snippet_detail(request, pk, format=None):
     
     try:
